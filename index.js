@@ -15,37 +15,36 @@ class BinarySearchTree {
     const newNode = new Node(value);
     if (this.root == null) {
       this.root = newNode;
+      return this;
     }
-    else {
-      let currentNode = this.root;
-      while (true) {
-        //Left
-        if (value < currentNode.value) {
-          if (!currentNode.left) {
-            currentNode.left = newNode;
-            return this;
-          }
-          currentNode = currentNode.left;
+    let currentNode = this.root;
+    while (true) {
+      //Left
+      if (value < currentNode.value) {
+        if (!currentNode.left) {
+          currentNode.left = newNode;
+          return this;
         }
-        else {
-          //Right
-          if (!currentNode.right) {
-            currentNode.right = newNode;
-            return this;
-          }
-          currentNode = currentNode.right;
+        currentNode = currentNode.left;
+      }
+      else {
+        //Right
+        if (!currentNode.right) {
+          currentNode.right = newNode;
+          return this;
         }
+        currentNode = currentNode.right;
       }
     }
   }
 
   lookup(value) {
     let currentNode = this.root;
-    while (currentNode){
-      if (value == currentNode.value){
+    while (currentNode) {
+      if (value == currentNode.value) {
         return currentNode;
       }
-      currentNode = value < currentNode.value ? currentNode.left : currentNode.right; 
+      currentNode = value < currentNode.value ? currentNode.left : currentNode.right;
     }
     return false;
   }
@@ -61,8 +60,6 @@ class BinarySearchTree {
     if (!this.root) {
       return false;
     }
-
-    //Traverse to the node we have to remove
     let currentNode = this.root;
     let parentNode = null;
     while (currentNode) {
@@ -78,9 +75,9 @@ class BinarySearchTree {
         //We have a match, time to work
 
         //Option 1:currentNode has no right child
-        if (!currentNode.right){
+        if (!currentNode.right) {
           if (parentNode === null) {
-            this.root =  currentNode.left;
+            this.root = currentNode.left;
           }
           else {
             if (value < parentNode.value) {
@@ -113,14 +110,14 @@ class BinarySearchTree {
           //Find the right child's left most child
           let leftmost = currentNode.right.left;
           let leftmostParent = currentNode.right;
-          while (leftmost.left){
+          while (leftmost.left) {
             leftmostParent = leftmost;
             leftmost = leftmost.left;
           }
           leftmostParent.left = leftmost.right;
           leftmost.left = currentNode.left;
           leftmost.right = currentNode.right;
-          if (parentNode === null){
+          if (parentNode === null) {
             this.root = leftmost;
           }
           else {
@@ -145,9 +142,9 @@ class BinarySearchTree {
     let currentNode;
     let list = [];
     let queue = [];
-    
+
     queue.push(this.root);
-    
+
     while (queue.length > 0) {
       currentNode = queue.shift();
       list.push(currentNode.value);
@@ -158,7 +155,7 @@ class BinarySearchTree {
         queue.push(currentNode.right);
       }
     }
-    
+
     return list;
   }
 
@@ -167,7 +164,7 @@ class BinarySearchTree {
     if (!queue.length) {
       return list;
     }
-    
+
     let currentNode = queue.shift();
     list.push(currentNode.value);
     if (currentNode.left) {
@@ -179,14 +176,14 @@ class BinarySearchTree {
     return this.breadthFirstSearchRecursive(queue, list);
   }
 
-    //   9
+  //   9
   //  4     20
   //1  6  15  170
 
   // All DFS have a time complexity of logN
   // DFS is useful for finding if a path exists
   // DFS goes to the depth of the tree faster than BFS and will also take less memoey than BFS in doing so.
-  
+
   //Prints data in sorted order
   DFSInOrder(node, list) {
     if (node.left) {
@@ -222,7 +219,7 @@ class BinarySearchTree {
     return list;
   }
 
-  
+
 
 }
 
@@ -237,7 +234,7 @@ tree.insert(15);
 tree.insert(1);
 //console.log(tree.lookup(9));
 //tree.remove(9);
-// console.log(JSON.stringify(tree.traverse(tree.root)));
+console.log(JSON.stringify(tree.traverse(tree.root)));
 // console.log(tree.breadthFirstSearch());
 // console.log(tree.breadthFirstSearchRecursive([tree.root], []));
 console.log(tree.DFSInOrder(tree.root, []));
